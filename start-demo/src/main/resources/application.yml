@@ -28,7 +28,7 @@ spring:
         min-idle: 5     #最小等待连接中的数量,设 0 为没有限制
       shutdown-timeout: 5000
     database: 0
-mamba:
+app:
   common:
     env: ${spring.profiles.active}
     port: ${server.port}

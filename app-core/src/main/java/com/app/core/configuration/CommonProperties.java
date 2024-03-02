@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@ConfigurationProperties(prefix = "mamba.common")
+@ConfigurationProperties(prefix = "app.common")
 @Component
 @Setter
 @Getter
