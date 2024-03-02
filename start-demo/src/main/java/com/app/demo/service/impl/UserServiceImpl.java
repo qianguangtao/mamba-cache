@@ -1,6 +1,7 @@
 package com.app.demo.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.app.cache.annotation.CollectionCacheEvict;
 import com.app.cache.annotation.CollectionCacheable;
 import com.app.demo.cache.enums.CacheEnum;
 import com.app.demo.entity.User;
@@ -43,8 +44,14 @@ public class UserServiceImpl implements UserService {
 
     @CacheEvict(value = CacheEnum.Names.User, key = "#id")
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         DB.remove(id);
+    }
+
+    @CollectionCacheEvict(value = CacheEnum.Names.User)
+    @Override
+    public void delete(List<String> idList) {
+        idList.forEach(id -> DB.remove(id));
     }
 
     @CachePut(value = CacheEnum.Names.User, key = "#user.id")
@@ -60,7 +67,7 @@ public class UserServiceImpl implements UserService {
             , unless = "#result == null"
             , condition = "#id != null")
     @Override
-    public User getById(Long id) {
+    public User getById(String id) {
         return DB.get(id);
     }
 

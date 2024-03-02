@@ -1,5 +1,6 @@
 package com.app.demo.controller;
 
+import com.app.core.mvc.argument.StrListPathVariable;
 import com.app.core.mvc.result.Result;
 import com.app.demo.entity.User;
 import com.app.demo.service.UserService;
@@ -34,14 +35,14 @@ public class UserController {
 
     @ApiOperation(value = "新增用户")
     @ApiOperationSupport(order = 2)
-    @PutMapping()
+    @PostMapping()
     public Result<User> save(@RequestBody User user) {
         return Result.success(service.insert(user));
     }
 
     @ApiOperation(value = "编辑用户")
     @ApiOperationSupport(order = 3)
-    @PostMapping()
+    @PutMapping()
     public Result<User> edit(@RequestBody User user) {
         return Result.success(service.edit(user));
     }
@@ -49,7 +50,7 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @ApiOperationSupport(order = 4)
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@PathVariable String id) {
         service.delete(id);
         return Result.success();
     }
@@ -57,10 +58,18 @@ public class UserController {
     @ApiOperation(value = "查询单个用户")
     @ApiOperationSupport(order = 5)
     @GetMapping("/{id}")
-    public Result<User> getById(@PathVariable Long id) {
+    public Result<User> getById(@PathVariable String id) {
         User user = service.getById(id);
         log.info("查询用户成功：{}", user);
         return Result.success(user);
     }
+    @ApiOperation(value = "批量删除用户")
+    @ApiOperationSupport(order = 6)
+    @DeleteMapping("/batch/{ids}")
+    public Result<Void> deleteBatch(@StrListPathVariable List<String> ids) {
+        service.delete(ids);
+        return Result.success();
+    }
+
 
 }
