@@ -31,9 +31,11 @@ cache-starter就是解决上述的问题，核心代码在**starter/cache-starte
 5. Redisson的订阅/发布
 6. Reflect反射
 
+![sprign cache 二级缓存](https://github.com/qianguangtao/mamba-cache/assets/6427290/7f892a01-d7d0-4e32-b159-7ec36e5f8c41)
 
 
 ## **UML类图**
+![spring cache UML 二级缓存](https://github.com/qianguangtao/mamba-cache/assets/6427290/b8996720-a745-425b-81a5-a1151df06e6b)
 
 
 
