@@ -1,0 +1,48 @@
+package com.app.core.constant;
+
+/**
+ * 系统通用常量
+ *
+ * @author qiangt
+ * @since 2022-11-11
+ */
+public interface Constants {
+    /**
+     * CURRENT_LOGIN_USER
+     */
+    String CURRENT_LOGIN_USER = "CURRENT_LOGIN_USER";
+
+    /**
+     * 链路追踪标记
+     */
+    String TRACE_KEY = "X-B3-TraceId";
+    String TRACE_USER_ID_KEY = "x-user-id";
+
+    /**
+     * ROOT权限
+     */
+    String ADMIN_AUTHORITY = "ROLE_ADMIN";
+
+    /**
+     * 匿名权限
+     */
+    String ANONYMOUS_AUTHORITY = "ROLE_ANONYMOUS";
+    /**
+     * 默认的创建人
+     */
+    String DEFAULT_CREATOR = "ANONYMOUS";
+    /**
+     * 默认的创建人id
+     */
+    Long DEFAULT_CREATE_BY = 922337203685477L;
+
+    /**
+     * RSA加密私钥
+     */
+    String RSA_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDReLx097U+jjo2XiMU92XLnUD4K/FWPzbRiHoRUgRSKHhg1MfCCZLKHYHIETTTl8QIXrRbFkZyqJabX40qTpGSJtXtUdgMN34A6w3sEZAClazfqSD8Ui9+wN0XyiTV/Gg4JIAXhr7KefxtCEdoNQ+DKOzp9BLYwq3Juf2mfq+Y8FM7dzoqcMA7MqZNUXCHY1UDSuCHVwFGoXWcsHwljekBSr/MHS+qxQJh0Eq4JWbavys50guMZIWtewD0eu43aSEhnSTiuFHCyj4V/mE8HUJp7LPSQa6RP9J2jpOXttrRcjuzdpDCfF3b3ep74ezwgFbKP3/xc0qsEGcuQCH3DyU9AgMBAAECggEADd8k+8n7oqzghgEt6ZGImDdNuiGO1dtR0gZrrwHzb01my2LL57mikufpVEpvaSO/w54h63ZKLAWmE5v8STTyxu7zc8fbutNh8MWgImX3V3R6AkW8/Xij1I0JFy43ykPw0ub35Jbzw4zYfo/xyqDY6iKnrcaQCPK7d4Rtm7z/++yvkbBtD6KpTny2cjf8NLV0l56rBe2mbT498LwqYyFh1evH6kUugpqA7lfg76UPS7iRM1vDnnfh3qEEwNlQZbLvkQ7nbFmhy9QB3a7nP07uDZObAL+Y6D4/i1ku0Q3mTJldr2jnPuhA0Mj3i0tMgsvJ4qJ1IVHbcOkQA6EXvraSMQKBgQD6zN6jJl8BWtG5VAkvYF0F04mfecBa+teAFuhNDAKj7hDRiYi/Sroc55C0ekP2SaLn2zU5YaZqWMtzqq7Rrvp4mh6u6OcxiokDc044VtqKXCVkzXoBKbGbzaTCsPtfGpFw1Jay3jow0LT8vAwHokS74eZ61gbv2ohj8lQhssbYAwKBgQDV0INtuNG/wKSWNYppdUKiaV55LDi5AD9FkXR5syhaHYMzgb+SIL/kuEELiMsWY9EtqsQMUEmHt5y2d+unkAWWmQtKmyQNQg7fdgyYXe+WDEPacOzb5SC/ad+K7gEgBTtCr0wCPQDV6zPDQ4+Yf//e8+OIipzqHA9j7jsUVV6pvwKBgA8uXX+kr/WGCNHeC1xJyfezUU5M8V7QdkDzogYf5v0DSRNV7ugdXtynC7RQ/lInLOw58aPSjF89lrsepsxceh7YvWi7AluWVirWTPLOFxZu83iBk5QEcRLMRN/gFKcyFYGt7J1RJFaWG45814GSyfRRfUEMOYlFQiJCpeMQTkb/AoGAHRn8SXrWUZsOy8MNy7zCDQj6atOyBLwb4IQjrkzMOTe7G8+VG3aJp7/MWp2LxshfOC/97w8ecvJyygMYd/4KRK0f9E+ZYJSVIaUXocVnTqzsr1afZm6RPnxSiL5MOOd9YV4qokNbUcJpkTIo4UDKurXHSlZTdSnMjnVmZSYZdFECgYEA8DwVl9x4G2R43lhFfnaU/hxJR/0Z8fV1kH++SProEn0khZJVAGc06Hr82h1UkAMx8c2O/SAJjI4UnjHmvo6cpX+fd9/myl46aB8prR4UNuBHs9/A7sR3zizVJL9ItKbTgsqr3b0aF/IkJMrv8sv6ejmCVn5jACo8bnfmOG3eN7g=";
+
+    /**
+     * RSA加密公钥
+     */
+    String RSA_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Xi8dPe1Po46Nl4jFPdly51A+CvxVj820Yh6EVIEUih4YNTHwgmSyh2ByBE005fECF60WxZGcqiWm1+NKk6RkibV7VHYDDd+AOsN7BGQApWs36kg/FIvfsDdF8ok1fxoOCSAF4a+ynn8bQhHaDUPgyjs6fQS2MKtybn9pn6vmPBTO3c6KnDAOzKmTVFwh2NVA0rgh1cBRqF1nLB8JY3pAUq/zB0vqsUCYdBKuCVm2r8rOdILjGSFrXsA9HruN2khIZ0k4rhRwso+Ff5hPB1Caeyz0kGukT/Sdo6Tl7ba0XI7s3aQwnxd293qe+Hs8IBWyj9/8XNKrBBnLkAh9w8lPQIDAQAB";
+}

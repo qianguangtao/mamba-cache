@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+1、scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+2、scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效，默认的时间间隔为1分钟。
+3、debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态，默认值为false。
+4、configuration 子节点为 appender、logger、root。
+5、slf4j 接管： http://www.slf4j.org/legacy.html
+-->
+<configuration scan="true" scanPeriod="60 second" debug="false">
+    <!-- 是否输出控制台日志(YES|NO) -->
+    <property name="LOG_CONSOLE" value="${log.console:-YES}"/>
+    <!-- 是否记录日志到文件(YES|NO) -->
+    <property name="LOG_FILE" value="${log.file:-YES}"/>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="${log.home:-.}/logs"/>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="APP_NAME" value="${log.appname:-app}"/>
+    <property name="CONSOLE_ENCODING" value="${console.encoding:-UTF-8}"/>
+
+    <!-- 负责写日志,控制台日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 一是把日志信息转换成字节数组，二是把字节数组写入到输出流 -->
+        <encoder>
+            <pattern>%highlight(%d{HH:mm:ss.SSS} %5level %50logger{50} [%X{X-B3-TraceId:--}:%X{x-user-id:--}] : %m%n)
+            </pattern>
+            <charset>${CONSOLE_ENCODING}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 启用物理文件记录日志 -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <encoder>
+            <!--
+            %50logger{50}：
+            1、如果logger的名字小于50个字符的长度，那么会在左边填充空格。
+            2、logger{length} 输出日志的logger名，可有一个整形参数，功能是缩短logger名，设置为0表示只输入logger最右边点符号之后的字符串。
+            -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level %50logger{50} [%X{X-B3-TraceId:--}:%X{x-user-id:--}] : %m%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--
+            - 每天至少生成一个日志文件，超过 500M 则增加一个文件，最多保存 10 个日志文件
+            - 如果隔一段时间没有输出日志，前面过期的日志不会被删除，只有再重新打印日志的时候，会触发删除过期日志的操作。
+            -->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyyMMdd}_%i.log</fileNamePattern>
+            <!--最多保存7天-->
+            <maxHistory>7</maxHistory>
+            <!--每个文件不超过200MB-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--所有日志总量不超过10GB-->
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!--异步输出-->
+    <appender name="APP_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 默认如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志，若要保留全部日志，设置为0 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!--队列的最大容量，默认为 256-->
+        <queueSize>1024</queueSize>
+        <!--<includeCallerData>true</includeCallerData>-->
+        <appender-ref ref="APP"/>
+    </appender>
+
+    <!-- 打印访问记录日志 -->
+    <appender name="APP_ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APP_NAME}.access.log</file>
+        <encoder>
+            <!--
+            %50logger{50}：
+            1、如果logger的名字小于50个字符的长度，那么会在左边填充空格。
+            2、logger{length} 输出日志的logger名，可有一个整形参数，功能是缩短logger名，设置为0表示只输入logger最右边点符号之后的字符串。
+            -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level %50logger{50} [%X{X-B3-TraceId:--}:%X{x-user-id:--}] : %m%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--
+            - 每天至少生成一个日志文件，超过 500M 则增加一个文件，最多保存 10 个日志文件
+            - 如果隔一段时间没有输出日志，前面过期的日志不会被删除，只有再重新打印日志的时候，会触发删除过期日志的操作。
+            -->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyyMMdd}_%i.access.log</fileNamePattern>
+            <!--最多保存7天-->
+            <maxHistory>7</maxHistory>
+            <!--每个文件不超过200MB-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--所有日志总量不超过10GB-->
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!--异步输出-->
+    <appender name="APP_ASYNC_ACCESS" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 默认如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志，若要保留全部日志，设置为0 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!--队列的最大容量，默认为 256-->
+        <queueSize>1024</queueSize>
+        <!--<includeCallerData>true</includeCallerData>-->
+        <appender-ref ref="APP_ACCESS"/>
+    </appender>
+
+    <!-- 打印编译完成的sql语句 -->
+    <!-- 打印 Controller 注册url -->
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="TRACE"/>
+    <!-- 已经配置AOP拦截了，不需要再打印 Controller 返回的结果 -->
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor"
+            level="INFO"/>
+    <logger name="org.apache.commons.beanutils.converters.AbstractConverter" level="INFO"/>
+    <logger name="com.zaxxer.hikari.pool.HikariPool" level="INFO"/>
+    <logger name="org.apache.commons.beanutils.converters" level="INFO"/>
+    <logger name="org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator" level="INFO"/>
+    <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="OFF"/>
+    <logger name="springfox.documentation.spring.web.scanners.ApiListingReferenceScanner" level="OFF"/>
+    <logger name="org.apache.http.wire" level="INFO"/>
+    <logger name="org.elasticsearch.client.RestClient" level="ERROR"/>
+    <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="WARN"/>
+    <logger name="com.app.core.logger.LogAspect" level="INFO" additivity="false">
+        <appender-ref ref="APP_ASYNC_ACCESS"/>
+    </logger>
+
+    <root level="INFO">
+        <if condition='property("LOG_CONSOLE").contains("YES")'>
+            <then>
+                <appender-ref ref="CONSOLE"/>
+            </then>
+        </if>
+        <if condition='property("LOG_FILE").contains("YES")'>
+            <then>
+                <appender-ref ref="APP"/>
+            </then>
+        </if>
+    </root>
+
+</configuration>
