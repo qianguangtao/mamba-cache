@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2023/9/13
  * @apiNote
  */
-@Api("用户")
+@Api(tags = "用户管理")
 @Slf4j
 @RestController
 @RequestMapping("/users")
