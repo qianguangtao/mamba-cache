@@ -1,5 +1,6 @@
 package com.app.demo.configuration;
 
+import com.app.core.configuration.CommonProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -20,6 +21,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class Knife4jConfiguration {
     @Bean(value = "dockerBean")
     public Docket dockerBean() {
+        if (!CommonProperties.instance().isSwaggerEnabled()) {
+            return null;
+        }
         // 指定使用Swagger2规范
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()

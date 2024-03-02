@@ -76,7 +76,6 @@ public class WebUtil {
 
     /**
      * 获取指定Cookie的值
-     *
      * @param defaultValue 缺省值
      */
     public static final String getCookieValue(final HttpServletRequest request, final String cookieName, final String defaultValue) {
@@ -234,6 +233,14 @@ public class WebUtil {
         // 防止乱码，适用于传输JSON数据
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
+    }
+
+    public static String getHostIp() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+        }
+        return "127.0.0.1";
     }
 
 }
