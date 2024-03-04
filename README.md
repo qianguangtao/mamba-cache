@@ -198,10 +198,54 @@ public List<User> list(User user) {
 
 ## 测试
 
-### yml中配置redis
+### 修改yml中配置redis
 
 ### 启动DemoApplication.java
 
 ### 浏览器访问swagger
 
 http://localhost:8080/doc.html
+
+#### 查询用户列表（不带参数）
+
+POST /users/list
+
+第一次访问，debug进入了UserService.list(User user)方法
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/7788bffe-fbb4-45aa-90fd-40122573a06c)
+
+##### Redis缓存
+
+多了一条User:List:方法名的记录
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/102644da-8266-448f-9359-3973a54e2815)
+
+##### Caffeine中缓存（name输入User）
+
+GET /caffeines/{name}
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/4070ecab-ee80-44ab-aa5c-8f9555bca7e9)
+
+第二次访问，debug不会进入了UserService.list(User user)方法
+
+#### 查询用户列表（带参数）
+
+POST /users/list
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/dd8704f8-813a-4597-b72c-22a3a0d783cc)
+
+##### Redis缓存
+
+多了一条User:List:MD5(入参)的记录
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/45dc0500-931d-4964-9ace-464975c13396)
+
+
+##### Caffeine中缓存（name输入User）
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/0582f19b-db43-42b4-9cbf-0322af2af585)
+
+
+
+
+
