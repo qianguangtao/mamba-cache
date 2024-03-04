@@ -245,6 +245,34 @@ POST /users/list
 
 ![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/0582f19b-db43-42b4-9cbf-0322af2af585)
 
+#### 新增用户
+
+POST /users
+
+请求参数
+
+```java
+{
+  "userName": "Ken"
+}
+```
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/7adf7b94-e669-4703-8e6b-6b332c0a167d)
+
+会清空Redis&Caffeine中所有以User:List开头的缓存
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/fc96ae66-5970-448e-b4cf-b83a90f6d42d)
+
+#### 编辑、删除用户同新增用户，删除User:List开头的缓存
+
+#### 集群下Caffeine缓存同步
+
+如果yml中设置了app.cache.sync-enabled = true
+
+CacheSubscriber的实现类RedissonCacheSubscriberImpl会收到广播（基于Redisson的发布/订阅），删除User:List开头的缓存
+
+![image](https://github.com/qianguangtao/mamba-cache/assets/6427290/b4162217-263c-4e1c-a95c-3a9285fa314e)
+
 
 
 
